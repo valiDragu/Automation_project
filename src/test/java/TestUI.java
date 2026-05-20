@@ -47,7 +47,7 @@ public class TestUI extends BaseTest {
 
         List<String> actualDisplayedProducts = productsPage.getAllProductsNames();
         List<String> expectedDisplayedProducts = productsPage.fiterNamesASC();
-        Collections.sort(expectedDisplayedProducts, Collections.reverseOrder());
+        expectedDisplayedProducts.sort(Collections.reverseOrder());
 
         Assert.assertEquals(actualDisplayedProducts, expectedDisplayedProducts, "Filter error");
     }
