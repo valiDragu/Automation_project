@@ -15,6 +15,7 @@ public class ProductsPage {
 
     private By filterBtn = By.xpath("//select[@data-test='product-sort-container']");
     private By filterName = By.xpath("//span[@data-test='active-option']");
+    private By productContainer = By.xpath("//div[@data-test='inventory-item']");
     private By productName = By.xpath("//div[@data-test='inventory-item-name']");
     private By productPrice = By.xpath("//div[@data-test='inventory-item-price']");
     private By productDescription = By.xpath("//div[@data-test='inventory-item-desc']");
@@ -25,6 +26,7 @@ public class ProductsPage {
         this.driver = driver;
     }
 
+    // Filter actions
     public void selectFilter(String option) {
         Select select = new Select(driver.findElement(filterBtn));
         select.selectByVisibleText(option);
@@ -34,39 +36,43 @@ public class ProductsPage {
         return driver.findElement(filterName).getText().trim();
     }
 
-    public String getProductName(int itemIndex) {
-        String productNamePath = productName.toString().replace("By.xpath: ", "");
-        String indexedProductName = "(" + productNamePath + ")[" + itemIndex + "]";
-        return driver.findElement(By.xpath(indexedProductName)).getText().trim();
+    public List <String> filterNamesASC() {
+        List <String> namesASC = new ArrayList<>(getAllProductsNames());
+        Collections.sort(namesASC);
+        return namesASC;
     }
 
-    public String getProductDescription(int itemIndex) {
-        String productDescriptionPath = productDescription.toString().replace("By.xpath: ", "");
-        String indexedProductDescription = "(" + productDescription + ")[" + itemIndex + "]";
-        return driver.findElement(By.xpath(indexedProductDescription)).getText().trim();
+    public List<Double> filterPriceASC() {
+        List <Double> pricesASC = new ArrayList<>(getAllProductsPrices());
+        Collections.sort(pricesASC);
+        return  pricesASC;
     }
 
-    public double getProductPrice(int itemIndex) {
-        String productPricePath = productPrice.toString().replace("By.xpath: ", "");
-        String indexedProductPrice = "(" + productPricePath + ")[" + itemIndex + "]";
-        String price = driver.findElement(By.xpath(indexedProductPrice)).getText().trim();
-        price.replace("$", "");
-        double finalPrice = Double.parseDouble(price);
-        return finalPrice;
+    // Actions for specific product
+    public String getProductName(String productName) {
+        return xpathHelper(productName).findElement(this.productName).getText().trim();
     }
 
-    public void addProductToCart(int itemIndex) {
-        String productCartBtn = addToCartBtn.toString().replace("By.xpath: ", "");
-        String indexedCartBtn = "(" + addToCartBtn + ")[" + itemIndex + "]";
+    public String getProductDescription(String productName) {
+        return xpathHelper(productName).findElement(productDescription).getText().trim();
     }
 
-    public void removeProductFromCart(int itemIndex) {
-        String productCartBtnR = removeFromCartBtn.toString().replace("By.xpath: ", "");
-        String indexedCartBtnR = "(" + removeFromCartBtn + ")[" + itemIndex + "]";
+    public double getProductPrice(String productName) {
+        String rawPrice = xpathHelper(productName).findElement(productPrice).getText().trim().replace("$", "");
+        return Double.parseDouble(rawPrice);
     }
 
+    public void addProductToCart(String productName) {
+        xpathHelper(productName).findElement(addToCartBtn).click();
+    }
+
+    public void removeProductFromCart(String productName) {
+        xpathHelper(productName).findElement(removeFromCartBtn).click();
+    }
+
+    // Bulk actions
     public int getProductsCount() {
-        List <WebElement> totalProducts = driver.findElements(productName);
+        List <WebElement> totalProducts = driver.findElements(productContainer);
         return totalProducts.size();
     }
 
@@ -79,11 +85,6 @@ public class ProductsPage {
         return productNames;
     }
 
-    public List <String> filterNamesASC() {
-        List <String> namesASC = new ArrayList<>(getAllProductsNames());
-        Collections.sort(namesASC);
-        return namesASC;
-    }
 
     public List<Double> getAllProductsPrices() {
         List <Double> productPrices = new ArrayList<>();
@@ -98,9 +99,9 @@ public class ProductsPage {
         return productPrices;
     }
 
-    public List<Double> filterPriceASC() {
-        List <Double> pricesASC = new ArrayList<>(getAllProductsPrices());
-        Collections.sort(pricesASC);
-        return  pricesASC;
+    //Helper method for actions targeting specific products
+    private WebElement xpathHelper(String itemName) {
+        String productXpath = "//div[@data-test='inventory-item'][.//div[text()='" + itemName + "']]";
+        return driver.findElement(By.xpath(productXpath));
     }
 }
