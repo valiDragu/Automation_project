@@ -79,7 +79,7 @@ public class ProductsPage {
         return productNames;
     }
 
-    public List <String> fiterNamesASC() {
+    public List <String> filterNamesASC() {
         List <String> namesASC = new ArrayList<>(getAllProductsNames());
         Collections.sort(namesASC);
         return namesASC;

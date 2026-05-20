@@ -1,4 +1,5 @@
 import base.BaseTest;
+import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.BasePage;
@@ -17,7 +18,9 @@ public class TestUI extends BaseTest {
         loginPage.sendPassword("secret_sauce");
         loginPage.login();
 
-        Assert.assertEquals(driver.getTitle(), "Products");
+        BasePage basePage = new BasePage(driver);
+        String pageName = basePage.getPageName();
+        Assert.assertEquals(pageName, "Products");
     }
 
     @Test
@@ -46,7 +49,7 @@ public class TestUI extends BaseTest {
         productsPage.selectFilter("Name (Z to A)");
 
         List<String> actualDisplayedProducts = productsPage.getAllProductsNames();
-        List<String> expectedDisplayedProducts = productsPage.fiterNamesASC();
+        List<String> expectedDisplayedProducts = productsPage.filterNamesASC();
         expectedDisplayedProducts.sort(Collections.reverseOrder());
 
         Assert.assertEquals(actualDisplayedProducts, expectedDisplayedProducts, "Filter error");
@@ -66,7 +69,7 @@ public class TestUI extends BaseTest {
         productsPage.selectFilter("Name (A to Z)");
 
         List<String> actualDisplayedProducts = productsPage.getAllProductsNames();
-        List<String> expectedDisplayedProducts = productsPage.fiterNamesASC();
+        List<String> expectedDisplayedProducts = productsPage.filterNamesASC();
         Collections.sort(expectedDisplayedProducts);
 
         Assert.assertEquals(actualDisplayedProducts, expectedDisplayedProducts, "Filter error");
