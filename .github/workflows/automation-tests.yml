@@ -37,7 +37,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: testng-report
-          path: target/surfire-reports/
+          path: target/surefire-reports/
+          if-no-files-found: warn
 
       - name: Upload screenshots
         uses: actions/upload-artifact@v4
