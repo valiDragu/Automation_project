@@ -25,10 +25,10 @@ public class BaseTest {
         driver.get(ConfigReader.getProperty("ui.url"));
     }
 
-//    @AfterMethod
-//    public void tearDown() {
-//        if (driver != null) {
-//            driver.quit();
-//        }
-//    }
+    @AfterMethod
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
 }
