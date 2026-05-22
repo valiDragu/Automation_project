@@ -15,9 +15,7 @@ public class TestProductsPage extends BaseTest {
     @Test
     public void testRedirectToProductsPageAfterLogin() {
         LoginPage loginPage = new LoginPage(driver);
-        loginPage.sendUsername("standard_user");
-        loginPage.sendPassword("secret_sauce");
-        loginPage.login();
+        loginPage.loginUser("standard_user", "secret_sauce");
 
         BasePage basePage = new BasePage(driver);
         String pageName = basePage.getPageName();
@@ -30,9 +28,7 @@ public class TestProductsPage extends BaseTest {
     @Test
     public void testFilterNameDesc() {
         LoginPage loginPage = new LoginPage(driver);
-        loginPage.sendUsername("standard_user");
-        loginPage.sendPassword("secret_sauce");
-        loginPage.login();
+        loginPage.loginUser("standard_user", "secret_sauce");
 
         BasePage basePage = new BasePage(driver);
         Assert.assertEquals(basePage.getPageName(), "Products");
@@ -53,9 +49,7 @@ public class TestProductsPage extends BaseTest {
     @Test
     public void testFilterNameAsc() {
         LoginPage loginPage = new LoginPage(driver);
-        loginPage.sendUsername("standard_user");
-        loginPage.sendPassword("secret_sauce");
-        loginPage.login();
+        loginPage.loginUser("standard_user", "secret_sauce");
 
         BasePage basePage = new BasePage(driver);
         Assert.assertEquals(basePage.getPageName(), "Products");
@@ -75,9 +69,7 @@ public class TestProductsPage extends BaseTest {
     @Test
     public void testFilterPriceLowToHigh() {
         LoginPage loginPage = new LoginPage(driver);
-        loginPage.sendUsername("standard_user");
-        loginPage.sendPassword("secret_sauce");
-        loginPage.login();
+        loginPage.loginUser("standard_user", "secret_sauce");
 
         BasePage basePage = new BasePage(driver);
         Assert.assertEquals(basePage.getPageName(), "Products");
@@ -97,9 +89,7 @@ public class TestProductsPage extends BaseTest {
     @Test
     public void testFilterPriceHighToLow() {
         LoginPage loginPage = new LoginPage(driver);
-        loginPage.sendUsername("standard_user");
-        loginPage.sendPassword("secret_sauce");
-        loginPage.login();
+        loginPage.loginUser("standard_user", "secret_sauce");
 
         BasePage basePage = new BasePage(driver);
         Assert.assertEquals(basePage.getPageName(), "Products");

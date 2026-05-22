@@ -51,7 +51,7 @@ public class CheckOutPage {
         driver.findElement(continueBtn).click();
     }
 
-    public void cancel() {
+    public void cancelToCart() {
         driver.findElement(cancelBtn).click();
     }
 }

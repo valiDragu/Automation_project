@@ -3,8 +3,7 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class ProductDetailsPage {
-    private WebDriver driver;
+public class ProductDetailsPage extends BasePage{
 
     private By backButton = By.xpath("//button[@data-test='back-to-products']");
     private By detailsProductName = By.xpath("//div[@data-test='inventory-item-name']");
@@ -14,7 +13,7 @@ public class ProductDetailsPage {
     private By detailsRemoveBtn  = By.xpath("//button[@data-test='remove']");
 
     public ProductDetailsPage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
     }
 
     public String getProductName() {
@@ -26,8 +25,7 @@ public class ProductDetailsPage {
     }
 
     public double getProductPrice() {
-        String rawPrice = driver.findElement(detailsProductPrice).getText().trim().replace("$", "");
-        return Double.parseDouble(rawPrice);
+        return cleanAndParsePrice(driver.findElement(detailsProductPrice).getText());
     }
 
     public void detailsAddToCart() {

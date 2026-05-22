@@ -7,8 +7,7 @@ import org.openqa.selenium.WebElement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OverviewPage {
-    private WebDriver driver;
+public class OverviewPage extends BasePage{
 
     private By itemCard = By.xpath("//div[@data-test='inventory-item']");
     private By itemName = By.xpath("//div[@data-test='inventory-item-name']");
@@ -20,18 +19,11 @@ public class OverviewPage {
     private By finishBtn = By.xpath("//button[@data-test='finish']");
 
     public OverviewPage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
     }
 
     public List<Double> getAllProductsPrices() {
-        List <Double> productPrices = new ArrayList<>();
-        List<WebElement> prices = driver.findElements(cartItemPrice);
-
-        for(WebElement price : prices) {
-            double doublePrice = Double.parseDouble(price.getText().trim().replace("$", ""));
-            productPrices.add(doublePrice);
-        }
-        return productPrices;
+        return getPricesFromElements(cartItemPrice);
     }
 
     public double getTax() {
@@ -65,7 +57,7 @@ public class OverviewPage {
         driver.findElement(itemName).click();
     }
 
-    public void cancel() {
+    public void cancelToInventory() {
         driver.findElement(cancelBtn).click();
     }
 

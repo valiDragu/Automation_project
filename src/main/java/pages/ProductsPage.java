@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ProductsPage {
-    private WebDriver driver;
+public class ProductsPage extends BasePage{
+
 
     private By filterBtn = By.xpath("//select[@data-test='product-sort-container']");
     private By filterName = By.xpath("//span[@data-test='active-option']");
@@ -23,7 +23,7 @@ public class ProductsPage {
     private By removeFromCartBtn = By.xpath("//button[contains(@id, 'remove')]");
 
     public ProductsPage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
     }
 
     // Filter actions
@@ -81,24 +81,16 @@ public class ProductsPage {
     }
 
     public List <String> getAllProductsNames() {
-        List <String> productNames = new ArrayList<>();
-        List <WebElement> products = driver.findElements(productName);
-        for (WebElement product : products) {
-            productNames.add(product.getText().trim());
-        }
-        return productNames;
+        return getTextFromElements(productName);
+    }
+
+    public List<String> getAllProductsDescriptions() {
+        return getTextFromElements(productDescription);
     }
 
 
     public List<Double> getAllProductsPrices() {
-        List <Double> productPrices = new ArrayList<>();
-        List<WebElement> prices = driver.findElements(productPrice);
-
-        for(WebElement price : prices) {
-            double doublePrice = Double.parseDouble(price.getText().trim().replace("$", ""));
-            productPrices.add(doublePrice);
-        }
-        return productPrices;
+        return getPricesFromElements(productPrice);
     }
 
     //Helper method for actions targeting a specific product

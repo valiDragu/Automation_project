@@ -11,9 +11,7 @@ public class TestLoginPage extends BaseTest {
     @Test
     public void testLoginWithValidCredentials() {
         LoginPage loginPage = new LoginPage(driver);
-        loginPage.sendUsername("standard_user");
-        loginPage.sendPassword("secret_sauce");
-        loginPage.login();
+        loginPage.loginUser("standard_user", "secret_sauce");
 
         BasePage basePage = new BasePage(driver);
         String pageName = basePage.getPageName();
@@ -24,9 +22,7 @@ public class TestLoginPage extends BaseTest {
     @Test
     public void testFailsWhenUsernameIsNotProvided() {
         LoginPage loginPage = new LoginPage(driver);
-        loginPage.sendUsername("");
-        loginPage.sendPassword("secret_sauce");
-        loginPage.login();
+        loginPage.loginUser("", "secret_sauce");
 
         String errorMessage = loginPage.getErrorMessage();
 
@@ -37,9 +33,7 @@ public class TestLoginPage extends BaseTest {
     @Test
     public void testFailsWhenPasswordIsNotProvided() {
         LoginPage loginPage = new LoginPage(driver);
-        loginPage.sendUsername("standard_user");
-        loginPage.sendPassword("");
-        loginPage.login();
+        loginPage.loginUser("standard_user", "");
 
         String errorMessage = loginPage.getErrorMessage();
 
@@ -50,9 +44,7 @@ public class TestLoginPage extends BaseTest {
     @Test
     public void testFailsWhenCredentialsAreInvalid() {
         LoginPage loginPage = new LoginPage(driver);
-        loginPage.sendUsername("test");
-        loginPage.sendPassword("test");
-        loginPage.login();
+        loginPage.loginUser("test", "test");
 
         String errorMessage = loginPage.getErrorMessage();
 
@@ -63,9 +55,7 @@ public class TestLoginPage extends BaseTest {
     @Test
     public void testFailsWhenUsingLockedUpUserCredentials() {
         LoginPage loginPage = new LoginPage(driver);
-        loginPage.sendUsername("locked_out_user");
-        loginPage.sendPassword("secret_sauce");
-        loginPage.login();
+        loginPage.loginUser("locked_out_user", "secret_sauce");
 
         String errorMessage = loginPage.getErrorMessage();
 

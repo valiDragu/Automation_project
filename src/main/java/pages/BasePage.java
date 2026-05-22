@@ -3,11 +3,13 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import utils.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BasePage {
-    private WebDriver driver;
+    protected WebDriver driver;
 
     private By logo = By.xpath("//div[@class='app_logo']");
     private By pageTitle = By.xpath("//span[@data-test='title']");
@@ -73,5 +75,28 @@ public class BasePage {
 
     public void closeSidePanel() {
         driver.findElement(closeSidePanelBtn).click();
+    }
+
+    protected double cleanAndParsePrice(String rawPrice) {
+        return StringUtils.cleanAndParsePrice(rawPrice);
+    }
+
+    protected List<String> getTextFromElements(By locator) {
+        List<String> texts = new ArrayList<>();
+        for (WebElement element : driver.findElements(locator)) {
+            texts.add(element.getText().trim());
+        }
+        return texts;
+    }
+
+    protected List<Double> getPricesFromElements(By locator) {
+        List<Double> priceList = new ArrayList<>();
+        List<WebElement> elements = driver.findElements(locator);
+
+        for (WebElement element : elements) {
+            double price = StringUtils.cleanAndParsePrice(element.getText());
+            priceList.add(price);
+        }
+        return priceList;
     }
 }

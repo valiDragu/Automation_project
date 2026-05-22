@@ -7,8 +7,7 @@ import org.openqa.selenium.WebElement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CartPage {
-    private WebDriver driver;
+public class CartPage extends BasePage{
 
     private By cartItem = By.xpath("//div[@data-test='inventory-item']");
     private By cartItemName = By.xpath("//div[@data-test='inventory-item-name']");
@@ -19,7 +18,7 @@ public class CartPage {
     private By checkoutBtn = By.xpath("//button[@data-test='checkout']");
 
     public CartPage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
     }
 
 
@@ -32,8 +31,7 @@ public class CartPage {
     }
 
     public double getCartItemPrice() {
-        String rawPrice = driver.findElement(cartItemPrice).getText().trim().replace("$", "");
-        return Double.parseDouble(rawPrice);
+        return cleanAndParsePrice(driver.findElement(cartItemPrice).getText());
     }
 
     public int getCartItemCount() {
@@ -42,32 +40,15 @@ public class CartPage {
     }
 
     public List<String> getAllCartItemsNames() {
-        List <String> cartItemsNames = new ArrayList<>();
-        List <WebElement> itemName = driver.findElements(cartItemName);
-        for (WebElement item : itemName) {
-            cartItemsNames.add(item.getText().trim());
-        }
-        return cartItemsNames;
+        return getTextFromElements(cartItemName);
     }
 
     public List<String> getAllCartItemsDescriptions() {
-        List <String> cartItemsDescriptions = new ArrayList<>();
-        List <WebElement> itemsDesc = driver.findElements(cartItemDescription);
-        for (WebElement item : itemsDesc) {
-            cartItemsDescriptions.add(item.getText().trim());
-        }
-        return cartItemsDescriptions;
+        return getTextFromElements(cartItemDescription);
     }
 
     public List<Double> getAllCartItemsPrices() {
-        List <Double> cartProductPrices = new ArrayList<>();
-        List<WebElement> cartPrices = driver.findElements(cartItemPrice);
-
-        for(WebElement price : cartPrices) {
-            double doublePrice = Double.parseDouble(price.getText().trim().replace("s", ""));
-            cartProductPrices.add(doublePrice);
-        }
-        return cartProductPrices;
+        return getPricesFromElements(cartItemPrice);
     }
 
     public void removeFromCart() {
