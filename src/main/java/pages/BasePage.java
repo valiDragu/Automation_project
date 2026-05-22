@@ -74,5 +74,4 @@ public class BasePage {
     public void closeSidePanel() {
         driver.findElement(closeSidePanelBtn).click();
     }
-
 }

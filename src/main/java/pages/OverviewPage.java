@@ -2,11 +2,16 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class OverviewPage {
     private WebDriver driver;
 
     private By itemCard = By.xpath("//div[@data-test='inventory-item']");
+    private By itemName = By.xpath("//div[@data-test='inventory-item-name']");
     private By cartItemPrice = By.xpath("//div[@data-test='inventory-item-price']");
     private By itemTotal = By.xpath("//div[@data-test='subtotal-label']");
     private By tax = By.xpath("//div[@data-test='tax-label']");
@@ -18,8 +23,53 @@ public class OverviewPage {
         this.driver = driver;
     }
 
-    public void getAllProductsPrices() {}
+    public List<Double> getAllProductsPrices() {
+        List <Double> productPrices = new ArrayList<>();
+        List<WebElement> prices = driver.findElements(cartItemPrice);
 
+        for(WebElement price : prices) {
+            double doublePrice = Double.parseDouble(price.getText().trim().replace("$", ""));
+            productPrices.add(doublePrice);
+        }
+        return productPrices;
+    }
 
+    public double getTax() {
+        return Double.parseDouble(driver.findElement(tax).getText().trim().replace("Tax: $", ""));
+    }
 
+    public double getItemTotal() {
+        return Double.parseDouble(driver.findElement(itemTotal).getText().trim().replace("Item total: $", ""));
+    }
+
+    public double getTotal() {
+        return Double.parseDouble(driver.findElement(totalPrice).getText().trim().replace("Total: $", ""));
+    }
+
+    public double calculateItemTotal() {
+        double itemTotal = 0.0;
+        List<Double> productPrices = getAllProductsPrices();
+
+        for (double price : productPrices) {
+            itemTotal += price;
+        }
+        return itemTotal;
+    }
+
+    public double calculateTotal() {
+        double total = 0.0;
+        return getItemTotal() + getTax();
+    }
+
+    public void goToProductDetails() {
+        driver.findElement(itemName).click();
+    }
+
+    public void cancel() {
+        driver.findElement(cancelBtn).click();
+    }
+
+    public void finish() {
+        driver.findElement(finishBtn).click();
+    }
 }
