@@ -70,6 +70,10 @@ public class ProductsPage {
         xpathHelper(productName).findElement(removeFromCartBtn).click();
     }
 
+    public void goToProductDetails(String productName) {
+        xpathHelper(productName).click();
+    }
+
     // Bulk actions
     public int getProductsCount() {
         List <WebElement> totalProducts = driver.findElements(productContainer);
@@ -91,15 +95,13 @@ public class ProductsPage {
         List<WebElement> prices = driver.findElements(productPrice);
 
         for(WebElement price : prices) {
-            String stringPrice = price.getText().trim();
-            String cutPrice = stringPrice.replace("$", "");
-            Double doublePrice = Double.parseDouble(cutPrice);
+            double doublePrice = Double.parseDouble(price.getText().trim().replace("$", ""));
             productPrices.add(doublePrice);
         }
         return productPrices;
     }
 
-    //Helper method for actions targeting specific products
+    //Helper method for actions targeting a specific product
     private WebElement xpathHelper(String itemName) {
         String productXpath = "//div[@data-test='inventory-item'][.//div[text()='" + itemName + "']]";
         return driver.findElement(By.xpath(productXpath));

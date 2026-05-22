@@ -13,15 +13,18 @@ import java.util.List;
 public class TestProductsPage extends BaseTest {
 
     @Test
-    public void testLoginWithValidCredentials() {
+    public void testRedirectToProductsPageAfterLogin() {
         LoginPage loginPage = new LoginPage(driver);
         loginPage.sendUsername("standard_user");
         loginPage.sendPassword("secret_sauce");
         loginPage.login();
 
         BasePage basePage = new BasePage(driver);
-        basePage.openSidePanel();
-        basePage.clickAllItems();
+        String pageName = basePage.getPageName();
+        String pageUrl = driver.getCurrentUrl();
+        Assert.assertEquals(pageName, "Products", "Actual page name is: " + pageName);
+        Assert.assertEquals(pageUrl,  "https://www.saucedemo.com/inventory.html", "Redirected to: " + pageUrl);
+
     }
 
     @Test
@@ -106,7 +109,7 @@ public class TestProductsPage extends BaseTest {
 
         List<Double> actualDisplayedPrices = productsPage.getAllProductsPrices();
         List<Double> expectedDisplayedPrices = productsPage.filterPriceASC();
-        Collections.sort(expectedDisplayedPrices, Collections.reverseOrder());
+        expectedDisplayedPrices.sort(Collections.reverseOrder());
 
         String filterName = productsPage.getFilterName();
         Assert.assertEquals(filterName, "Price (high to low)", "Actual filter name is: " + filterName);
