@@ -1,0 +1,85 @@
+package base;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class DriverFactory {
+
+    // ThreadLocal container protects the driver instance during parallel test execution
+    private static final ThreadLocal<WebDriver> tlDriver = new ThreadLocal<>();
+
+    /**
+     * Initializes the driver based on the browser string provided.
+     * @param browser e.g., "chrome", "firefox", "edge"
+     * @return a configured, isolated WebDriver instance
+     */
+    public static synchronized WebDriver initDriver(String browser) {
+        String targetBrowser = browser.toLowerCase().trim();
+        System.out.println("Launching browser framework configuration for: " + targetBrowser);
+
+        if (tlDriver.get() == null) {
+            switch (targetBrowser) {
+                case "chrome":
+                    WebDriverManager.chromedriver().setup();
+                    tlDriver.set(new ChromeDriver(getChromeOptions()));
+                    break;
+                case "firefox":
+                    WebDriverManager.firefoxdriver().setup();
+                    tlDriver.set(new FirefoxDriver());
+                    break;
+                case "edge":
+                    WebDriverManager.edgedriver().setup();
+                    tlDriver.set(new EdgeDriver());
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unsupported browser: " + browser
+                            + ". Please use 'chrome', 'firefox', or 'edge'.");
+            }
+        }
+        return getDriver();
+    }
+
+    /**
+     * Retrieves the thread-allocated driver instance.
+     */
+    public static synchronized WebDriver getDriver() {
+        return tlDriver.get();
+    }
+
+    /**
+     * Securely closes the driver instance and nullifies the ThreadLocal reference.
+     */
+    public static synchronized void quitDriver() {
+        if (tlDriver.get() != null) {
+            tlDriver.get().quit();
+            tlDriver.remove(); // Prevents memory leaks by clearing the thread storage
+        }
+    }
+
+    /**
+     * Encapsulates our optimized Chrome settings
+     */
+    private static ChromeOptions getChromeOptions() {
+        ChromeOptions options = new ChromeOptions();
+        Map<String, Object> prefs = new HashMap<>();
+
+        // Block popups, credit card saves, and password leak tracking overlays globally
+        prefs.put("credentials_enable_service", false);
+        prefs.put("profile.password_manager_enabled", false);
+        prefs.put("autofill.profile_enabled", false);
+        prefs.put("profile.password_manager_leak_detection", false);
+        options.setExperimentalOption("prefs", prefs);
+
+        options.addArguments("--disable-features=PasswordLeakDetection");
+        options.addArguments("--disable-blink-features=AutomationControlled");
+        options.addArguments("--start-maximized");
+        return options;
+    }
+}

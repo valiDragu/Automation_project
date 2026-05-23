@@ -1,6 +1,7 @@
 package UITests;
 
 import base.BaseTest;
+import base.DriverFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.CartPage;
@@ -10,10 +11,10 @@ import pages.ProductsPage;
 public class TestBurgerMenu extends BaseTest {
     @Test
     public void testResetAppStateButton() {
-        LoginPage loginPage = new LoginPage(driver);
+        LoginPage loginPage = new LoginPage(DriverFactory.getDriver());
         loginPage.loginUser("standard_user", "secret_sauce");
 
-        ProductsPage productsPage = new ProductsPage(driver);
+        ProductsPage productsPage = new ProductsPage(DriverFactory.getDriver());
         String productName = "Sauce Labs Bolt T-Shirt";
         productsPage.addProductToCart(productName);
 
@@ -29,15 +30,15 @@ public class TestBurgerMenu extends BaseTest {
 
     @Test
     public void testAllItemsButton() {
-        LoginPage loginPage = new LoginPage(driver);
+        LoginPage loginPage = new LoginPage(DriverFactory.getDriver());
         loginPage.loginUser("standard_user", "secret_sauce");
 
-        CartPage cartPage = new CartPage(driver);
+        CartPage cartPage = new CartPage(DriverFactory.getDriver());
         cartPage.openSidePanel();
         cartPage.clickAllItems();
 
         String pageName = cartPage.getPageName();
-        String pageUrl = driver.getCurrentUrl();
+        String pageUrl = DriverFactory.getDriver().getCurrentUrl();
 
         Assert.assertEquals(pageName, "Products", "Actual page name is: " + pageName);
         Assert.assertEquals(pageUrl,  "https://www.saucedemo.com/inventory.html", "All Items button not working");
@@ -46,28 +47,28 @@ public class TestBurgerMenu extends BaseTest {
 
     @Test
     public void testLogoutButton() {
-        LoginPage loginPage = new LoginPage(driver);
+        LoginPage loginPage = new LoginPage(DriverFactory.getDriver());
         loginPage.loginUser("standard_user", "secret_sauce");
 
-        ProductsPage productsPage = new ProductsPage(driver);
+        ProductsPage productsPage = new ProductsPage(DriverFactory.getDriver());
         productsPage.openSidePanel();
         productsPage.clickLogout();
 
-        String pageUrl = driver.getCurrentUrl();
+        String pageUrl = DriverFactory.getDriver().getCurrentUrl();
 
         Assert.assertEquals(pageUrl,  "https://www.saucedemo.com/", "Logout button not working");
     }
 
     @Test
     public void testAboutButton() {
-        LoginPage loginPage = new LoginPage(driver);
+        LoginPage loginPage = new LoginPage(DriverFactory.getDriver());
         loginPage.loginUser("standard_user", "secret_sauce");
 
-        ProductsPage productsPage = new ProductsPage(driver);
+        ProductsPage productsPage = new ProductsPage(DriverFactory.getDriver());
         productsPage.openSidePanel();
         productsPage.clickAbout();
 
-        String pageUrl = driver.getCurrentUrl();
+        String pageUrl = DriverFactory.getDriver().getCurrentUrl();
 
         Assert.assertEquals(pageUrl,  "https://saucelabs.com/", "Logout button not working");
     }

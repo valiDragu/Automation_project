@@ -1,6 +1,7 @@
 package UITests;
 
 import base.BaseTest;
+import base.DriverFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.*;
@@ -10,17 +11,17 @@ import java.util.List;
 public class TestOverviewPage extends BaseTest {
     @Test
     public void testOverviewPageIsReachable() {
-        LoginPage loginPage = new LoginPage(driver);
+        LoginPage loginPage = new LoginPage(DriverFactory.getDriver());
         loginPage.loginUser("standard_user", "secret_sauce");
 
-        CartPage cartPage = new CartPage(driver);
+        CartPage cartPage = new CartPage(DriverFactory.getDriver());
         cartPage.openCart();
         cartPage.checkOut();
 
-        CheckOutPage checkout = new CheckOutPage(driver);
+        CheckOutPage checkout = new CheckOutPage(DriverFactory.getDriver());
         checkout.fillForm(".", ".", ".");
 
-        String pageUrl = driver.getCurrentUrl();
+        String pageUrl = DriverFactory.getDriver().getCurrentUrl();
         String pageName = cartPage.getPageName();
 
         Assert.assertEquals(pageName, "Checkout: Overview", "Actual page name is: " + pageName);
@@ -29,20 +30,20 @@ public class TestOverviewPage extends BaseTest {
 
     @Test
     public void testCancelFunctionality() {
-        LoginPage loginPage = new LoginPage(driver);
+        LoginPage loginPage = new LoginPage(DriverFactory.getDriver());
         loginPage.loginUser("standard_user", "secret_sauce");
 
-        CartPage cartPage = new CartPage(driver);
+        CartPage cartPage = new CartPage(DriverFactory.getDriver());
         cartPage.openCart();
         cartPage.checkOut();
 
-        CheckOutPage checkout = new CheckOutPage(driver);
+        CheckOutPage checkout = new CheckOutPage(DriverFactory.getDriver());
         checkout.fillForm(".", ".", ".");
 
-        OverviewPage overview = new OverviewPage(driver);
+        OverviewPage overview = new OverviewPage(DriverFactory.getDriver());
         overview.cancelToInventory();
 
-        String pageUrl = driver.getCurrentUrl();
+        String pageUrl = DriverFactory.getDriver().getCurrentUrl();
         String pageName = cartPage.getPageName();
 
         Assert.assertEquals(pageName, "Products", "Actual page name is: " + pageName);
@@ -51,20 +52,20 @@ public class TestOverviewPage extends BaseTest {
 
     @Test
     public void testFinishFunctionality() {
-        LoginPage loginPage = new LoginPage(driver);
+        LoginPage loginPage = new LoginPage(DriverFactory.getDriver());
         loginPage.loginUser("standard_user", "secret_sauce");
 
-        CartPage cartPage = new CartPage(driver);
+        CartPage cartPage = new CartPage(DriverFactory.getDriver());
         cartPage.openCart();
         cartPage.checkOut();
 
-        CheckOutPage checkout = new CheckOutPage(driver);
+        CheckOutPage checkout = new CheckOutPage(DriverFactory.getDriver());
         checkout.fillForm(".", ".", ".");
 
-        OverviewPage overview = new OverviewPage(driver);
+        OverviewPage overview = new OverviewPage(DriverFactory.getDriver());
         overview.finish();
 
-        String pageUrl = driver.getCurrentUrl();
+        String pageUrl = DriverFactory.getDriver().getCurrentUrl();
         String pageName = cartPage.getPageName();
 
         Assert.assertEquals(pageName, "Checkout: Complete!", "Actual page name is: " + pageName);
@@ -74,24 +75,24 @@ public class TestOverviewPage extends BaseTest {
 
     @Test
     public void testAllItemsAreAdded() {
-        LoginPage loginPage = new LoginPage(driver);
+        LoginPage loginPage = new LoginPage(DriverFactory.getDriver());
         loginPage.loginUser("standard_user", "secret_sauce");
 
-        BasePage basePage = new BasePage(driver);
+        BasePage basePage = new BasePage(DriverFactory.getDriver());
         Assert.assertEquals(basePage.getPageName(), "Products");
 
-        ProductsPage productsPage = new ProductsPage(driver);
+        ProductsPage productsPage = new ProductsPage(DriverFactory.getDriver());
         List<Double> productsPrices = productsPage.getAllProductsPrices();
         productsPage.addAllProductsToCart();
         productsPage.openCart();
 
-        CartPage cartPage = new CartPage(driver);
+        CartPage cartPage = new CartPage(DriverFactory.getDriver());
         cartPage.checkOut();
 
-        CheckOutPage checkOut = new CheckOutPage(driver);
+        CheckOutPage checkOut = new CheckOutPage(DriverFactory.getDriver());
         checkOut.fillForm("John", "Doe", "1234");
 
-        OverviewPage overview = new OverviewPage(driver);
+        OverviewPage overview = new OverviewPage(DriverFactory.getDriver());
         Assert.assertTrue(overview.isItemDisplayed());
 
         List<Double> overviewPrices = overview.getAllProductsPrices();
@@ -101,23 +102,23 @@ public class TestOverviewPage extends BaseTest {
 
     @Test
     public void testTotalPriceIsCorrect() {
-        LoginPage loginPage = new LoginPage(driver);
+        LoginPage loginPage = new LoginPage(DriverFactory.getDriver());
         loginPage.loginUser("standard_user", "secret_sauce");
 
-        BasePage basePage = new BasePage(driver);
+        BasePage basePage = new BasePage(DriverFactory.getDriver());
         Assert.assertEquals(basePage.getPageName(), "Products");
 
-        ProductsPage productsPage = new ProductsPage(driver);
+        ProductsPage productsPage = new ProductsPage(DriverFactory.getDriver());
         productsPage.addAllProductsToCart();
         productsPage.openCart();
 
-        CartPage cartPage = new CartPage(driver);
+        CartPage cartPage = new CartPage(DriverFactory.getDriver());
         cartPage.checkOut();
 
-        CheckOutPage checkOut = new CheckOutPage(driver);
+        CheckOutPage checkOut = new CheckOutPage(DriverFactory.getDriver());
         checkOut.fillForm("John", "Doe", "1234");
 
-        OverviewPage overview = new OverviewPage(driver);
+        OverviewPage overview = new OverviewPage(DriverFactory.getDriver());
         Assert.assertTrue(overview.isItemDisplayed());
 
         double itemTotal = overview.calculateItemTotal();

@@ -1,6 +1,7 @@
 package UITests;
 
 import base.BaseTest;
+import base.DriverFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.*;
@@ -8,13 +9,13 @@ import pages.*;
 public class TestCheckOutPage extends BaseTest {
     @Test
     public void testCheckOutPageIsReachable() {
-        LoginPage loginPage = new LoginPage(driver);
+        LoginPage loginPage = new LoginPage(DriverFactory.getDriver());
         loginPage.loginUser("standard_user", "secret_sauce");
 
-        CartPage cartPage = new CartPage(driver);
+        CartPage cartPage = new CartPage(DriverFactory.getDriver());
         cartPage.openCart();
         cartPage.checkOut();
-        String pageUrl = driver.getCurrentUrl();
+        String pageUrl = DriverFactory.getDriver().getCurrentUrl();
         String pageName = cartPage.getPageName();
 
         Assert.assertEquals(pageName, "Checkout: Your Information", "Actual page name is: " + pageName);
@@ -24,16 +25,16 @@ public class TestCheckOutPage extends BaseTest {
 
     @Test
     public void testCancel() {
-        LoginPage loginPage = new LoginPage(driver);
+        LoginPage loginPage = new LoginPage(DriverFactory.getDriver());
         loginPage.loginUser("standard_user", "secret_sauce");
 
-        CartPage cartPage = new CartPage(driver);
+        CartPage cartPage = new CartPage(DriverFactory.getDriver());
         cartPage.openCart();
         cartPage.checkOut();
 
-        CheckOutPage checkout = new CheckOutPage(driver);
+        CheckOutPage checkout = new CheckOutPage(DriverFactory.getDriver());
         checkout.cancelToCart();
-        String pageUrl = driver.getCurrentUrl();
+        String pageUrl = DriverFactory.getDriver().getCurrentUrl();
         String pageName = cartPage.getPageName();
 
         Assert.assertEquals(pageName, "Your Cart", "Actual page name is: " + pageName);
@@ -43,14 +44,14 @@ public class TestCheckOutPage extends BaseTest {
 
     @Test
     public void testContinueWithMissingFormData() {
-        LoginPage loginPage = new LoginPage(driver);
+        LoginPage loginPage = new LoginPage(DriverFactory.getDriver());
         loginPage.loginUser("standard_user", "secret_sauce");
 
-        CartPage cartPage = new CartPage(driver);
+        CartPage cartPage = new CartPage(DriverFactory.getDriver());
         cartPage.openCart();
         cartPage.checkOut();
 
-        CheckOutPage checkout = new CheckOutPage(driver);
+        CheckOutPage checkout = new CheckOutPage(DriverFactory.getDriver());
         checkout.continueShopping();
 
         Assert.assertTrue(checkout.isErrorMessageDisplayed(), "Error message not received");
@@ -62,14 +63,14 @@ public class TestCheckOutPage extends BaseTest {
 
     @Test
     public void testContinueWithMissingLastName() {
-        LoginPage loginPage = new LoginPage(driver);
+        LoginPage loginPage = new LoginPage(DriverFactory.getDriver());
         loginPage.loginUser("standard_user", "secret_sauce");
 
-        CartPage cartPage = new CartPage(driver);
+        CartPage cartPage = new CartPage(DriverFactory.getDriver());
         cartPage.openCart();
         cartPage.checkOut();
 
-        CheckOutPage checkout = new CheckOutPage(driver);
+        CheckOutPage checkout = new CheckOutPage(DriverFactory.getDriver());
         checkout.fillForm(".", "", ".");
 
         Assert.assertTrue(checkout.isErrorMessageDisplayed(), "Error message not received");
@@ -81,14 +82,14 @@ public class TestCheckOutPage extends BaseTest {
 
     @Test
     public void testContinueWithMissingZipCode() {
-        LoginPage loginPage = new LoginPage(driver);
+        LoginPage loginPage = new LoginPage(DriverFactory.getDriver());
         loginPage.loginUser("standard_user", "secret_sauce");
 
-        CartPage cartPage = new CartPage(driver);
+        CartPage cartPage = new CartPage(DriverFactory.getDriver());
         cartPage.openCart();
         cartPage.checkOut();
 
-        CheckOutPage checkout = new CheckOutPage(driver);
+        CheckOutPage checkout = new CheckOutPage(DriverFactory.getDriver());
         checkout.fillForm(".", ".", "");
 
         Assert.assertTrue(checkout.isErrorMessageDisplayed(), "Error message not received");
@@ -99,21 +100,21 @@ public class TestCheckOutPage extends BaseTest {
 
     @Test
     public void testDismissErrorAndResubmitFormWithValidData() {
-        LoginPage loginPage = new LoginPage(driver);
+        LoginPage loginPage = new LoginPage(DriverFactory.getDriver());
         loginPage.loginUser("standard_user", "secret_sauce");
 
-        CartPage cartPage = new CartPage(driver);
+        CartPage cartPage = new CartPage(DriverFactory.getDriver());
         cartPage.openCart();
         cartPage.checkOut();
 
-        CheckOutPage checkout = new CheckOutPage(driver);
+        CheckOutPage checkout = new CheckOutPage(DriverFactory.getDriver());
         checkout.continueShopping();
 
         Assert.assertTrue(checkout.isErrorMessageDisplayed(), "Error message not received");
 
         checkout.closeError();
         checkout.fillForm("John", "Doe", "12345");
-        String pageUrl = driver.getCurrentUrl();
+        String pageUrl = DriverFactory.getDriver().getCurrentUrl();
         String pageName = cartPage.getPageName();
 
         Assert.assertEquals(pageName, "Checkout: Overview", "Actual page name is: " + pageName);
