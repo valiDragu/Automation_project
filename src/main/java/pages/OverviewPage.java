@@ -53,6 +53,7 @@ public class OverviewPage extends BasePage{
         return getItemTotal() + getTax();
     }
 
+
     public void goToProductDetails() {
         driver.findElement(itemName).click();
     }
@@ -64,4 +65,11 @@ public class OverviewPage extends BasePage{
     public void finish() {
         driver.findElement(finishBtn).click();
     }
+
+    public boolean isItemDisplayed() {
+        List<WebElement> item = driver.findElements(itemCard);
+        return !item.isEmpty() && item.getFirst().isDisplayed();
+    }
+
+
 }

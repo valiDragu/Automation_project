@@ -64,7 +64,7 @@ public class ProductsPage extends BasePage{
     }
 
     public void addProductToCart(String productName) {
-        xpathHelper(productName).findElement(addToCartBtn).click();
+        xpathHelper(productName).findElement(By.xpath(".//button[contains(@id, 'add-to-cart')]")).click();
     }
 
 

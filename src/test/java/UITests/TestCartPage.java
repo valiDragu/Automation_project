@@ -3,9 +3,12 @@ package UITests;
 import base.BaseTest;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import pages.BasePage;
 import pages.CartPage;
 import pages.LoginPage;
 import pages.ProductsPage;
+
+import java.util.List;
 
 public class TestCartPage extends BaseTest {
     @Test
@@ -17,7 +20,6 @@ public class TestCartPage extends BaseTest {
         cartPage.openCart();
         String pageUrl = driver.getCurrentUrl();
         String pageName = cartPage.getPageName();
-
 
         Assert.assertEquals(pageName, "Your Cart", "Actual page name is: " + pageName);
         Assert.assertEquals(pageUrl, "https://www.saucedemo.com/cart.html", "Redirected to: " + pageUrl);
@@ -62,7 +64,6 @@ public class TestCartPage extends BaseTest {
 
         ProductsPage productsPage = new ProductsPage(driver);
         String productName = "Sauce Labs Bolt T-Shirt";
-        String productName1 = productsPage.getProductName(productName);
         String productDescription  = productsPage.getProductDescription(productName);
         double productPrice = productsPage.getProductPrice(productName);
         productsPage.addProductToCart(productName);
@@ -75,9 +76,9 @@ public class TestCartPage extends BaseTest {
         int numberOfItems = cartPage.getCartItemCount();
         int numberOfItemsOnBadge = cartPage.getCartBadgeCount();
 
-        Assert.assertEquals(productName1, cartItemName, "Incorrect cartItemName: " + cartItemName);
-        Assert.assertEquals(productDescription, cartItemDescription, "Incorrect cartItemDescription: " + cartItemDescription);
-        Assert.assertEquals(productPrice, cartItemPrice, "Incorrect cartItemPrice: " + cartItemPrice);
+        Assert.assertEquals(cartItemName, productName, "Incorrect cartItemName: " + cartItemName);
+        Assert.assertEquals(cartItemDescription, productDescription, "Incorrect cartItemDescription: " + cartItemDescription);
+        Assert.assertEquals(cartItemPrice, productPrice, "Incorrect cartItemPrice: " + cartItemPrice);
         Assert.assertEquals(numberOfItems, numberOfItemsOnBadge, "Incorrect numberOfItemsOnBadge: " + numberOfItemsOnBadge);
     }
 
@@ -115,5 +116,29 @@ public class TestCartPage extends BaseTest {
 
         cartPage.removeFromCart();
         Assert.assertTrue(cartPage.isCartItemRemoved(), "Cart is not empty");
+    }
+
+    @Test
+    public void testAllProductAreCorrectlyAdded() {
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.loginUser("standard_user", "secret_sauce");
+
+        BasePage basePage = new BasePage(driver);
+        Assert.assertEquals(basePage.getPageName(), "Products");
+
+        ProductsPage productsPage = new ProductsPage(driver);
+        List<String> productsNames = productsPage.getAllProductsNames();
+        List<String> productsDescriptions = productsPage.getAllProductsDescriptions();
+        List<Double> productsPrices = productsPage.getAllProductsPrices();
+        productsPage.addAllProductsToCart();
+
+        CartPage cartPage = new CartPage(driver);
+        List<String> cartItemsNames = cartPage.getAllCartItemsNames();
+        List<String> cartItemsDescriptions = cartPage.getAllCartItemsDescriptions();
+        List<Double> cartItemsPrices = cartPage.getAllCartItemsPrices();
+
+        Assert.assertEquals(cartItemsNames,productsNames, "Product names list does not match cart names list");
+        Assert.assertEquals(cartItemsDescriptions, productsDescriptions, "Product descriptions list does not match cart description list");
+        Assert.assertEquals(cartItemsPrices, productsPrices, "Product prices list does not match cart prices list");
     }
 }

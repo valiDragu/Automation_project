@@ -65,6 +65,4 @@ public class TestLoginPage extends BaseTest {
         Assert.assertEquals(errorMessage,"Epic sadface: Sorry, this user has been locked out.");
         Assert.assertEquals(driver.getCurrentUrl(), "https://www.saucedemo.com/");
     }
-
-
 }
