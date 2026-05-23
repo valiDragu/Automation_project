@@ -67,7 +67,7 @@ public class DriverFactory {
         ChromeOptions options = new ChromeOptions();
         Map<String, Object> prefs = new HashMap<>();
 
-        // Block popups, credit card saves, and password leak tracking overlays globally
+        // Block popups and credential saving tracking overlays
         prefs.put("credentials_enable_service", false);
         prefs.put("profile.password_manager_enabled", false);
         prefs.put("autofill.profile_enabled", false);
@@ -77,6 +77,15 @@ public class DriverFactory {
         options.addArguments("--disable-features=PasswordLeakDetection");
         options.addArguments("--disable-blink-features=AutomationControlled");
         options.addArguments("--start-maximized");
+
+        // 🌟 CI/CD MUST-HAVE: Run headless without a visual GUI if executing inside GitHub Actions
+        if (System.getenv("GITHUB_ACTIONS") != null) {
+            options.addArguments("--headless=new");
+            options.addArguments("--disable-gpu");
+            options.addArguments("--no-sandbox");
+            options.addArguments("--disable-dev-shm-usage");
+        }
+
         return options;
     }
 }
