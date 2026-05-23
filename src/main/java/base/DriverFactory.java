@@ -1,6 +1,5 @@
 package base;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -17,25 +16,23 @@ public class DriverFactory {
 
     /**
      * Initializes the driver based on the browser string provided.
+     *
      * @param browser e.g., "chrome", "firefox", "edge"
-     * @return a configured, isolated WebDriver instance
      */
-    public static synchronized WebDriver initDriver(String browser) {
+    public static synchronized void initDriver(String browser) {
         String targetBrowser = browser.toLowerCase().trim();
         System.out.println("Launching browser framework configuration for: " + targetBrowser);
 
         if (tlDriver.get() == null) {
             switch (targetBrowser) {
                 case "chrome":
-                    WebDriverManager.chromedriver().setup();
+                    // 🌟 WebDriverManager removed; Selenium 4 handles driver binaries natively
                     tlDriver.set(new ChromeDriver(getChromeOptions()));
                     break;
                 case "firefox":
-                    WebDriverManager.firefoxdriver().setup();
                     tlDriver.set(new FirefoxDriver());
                     break;
                 case "edge":
-                    WebDriverManager.edgedriver().setup();
                     tlDriver.set(new EdgeDriver());
                     break;
                 default:
@@ -43,7 +40,7 @@ public class DriverFactory {
                             + ". Please use 'chrome', 'firefox', or 'edge'.");
             }
         }
-        return getDriver();
+        getDriver();
     }
 
     /**

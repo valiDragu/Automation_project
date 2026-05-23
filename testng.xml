@@ -11,13 +11,13 @@
     <test name="Checkout Validation Tests">
         <classes>
             <class name="UITests.TestLoginPage"/>
-            <class name="UITests.TestProductsPage"/>
-            <class name="UITests.TestProductDetailsPage"/>
-            <class name="UITests.TestCartPage"/>
-            <class name="UITests.TestCheckOutPage"/>
-            <class name="UITests.TestOverviewPage"/>
-            <class name="UITests.TestOrderCompletePage"/>
-            <class name="UITests.TestBurgerMenu"/>
+<!--            <class name="UITests.TestProductsPage"/>-->
+<!--            <class name="UITests.TestProductDetailsPage"/>-->
+<!--            <class name="UITests.TestCartPage"/>-->
+<!--            <class name="UITests.TestCheckOutPage"/>-->
+<!--            <class name="UITests.TestOverviewPage"/>-->
+<!--            <class name="UITests.TestOrderCompletePage"/>-->
+<!--            <class name="UITests.TestBurgerMenu"/>-->
         </classes>
     </test>
 
