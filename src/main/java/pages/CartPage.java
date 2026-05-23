@@ -11,7 +11,7 @@ public class CartPage extends BasePage{
 
     private By cartItem = By.xpath("//div[@data-test='inventory-item']");
     private By cartItemName = By.xpath("//div[@data-test='inventory-item-name']");
-    private By cartItemDescription = By.xpath("//div[@data-test='inventory_item_desc']");
+    private By cartItemDescription = By.xpath("//div[@data-test='inventory-item-desc']");
     private By cartItemPrice = By.xpath("//div[@data-test='inventory-item-price']");
     private By cartItemRemoveBtn = By.xpath("//button[contains(@data-test, 'remove')]");
     private By continueBtn =  By.xpath("//button[@data-test='continue-shopping']");
@@ -26,44 +26,58 @@ public class CartPage extends BasePage{
         return driver.findElement(cartItemName).getText().trim();
     }
 
+
     public String getCartItemDescription() {
         return driver.findElement(cartItemDescription).getText().trim();
     }
 
+
     public double getCartItemPrice() {
         return cleanAndParsePrice(driver.findElement(cartItemPrice).getText());
     }
+
 
     public int getCartItemCount() {
         List<WebElement> cartItems = driver.findElements(cartItem);
         return cartItems.size();
     }
 
+
     public List<String> getAllCartItemsNames() {
         return getTextFromElements(cartItemName);
     }
+
 
     public List<String> getAllCartItemsDescriptions() {
         return getTextFromElements(cartItemDescription);
     }
 
+
     public List<Double> getAllCartItemsPrices() {
         return getPricesFromElements(cartItemPrice);
     }
+
 
     public void removeFromCart() {
         driver.findElement(cartItemRemoveBtn).click();
     }
 
+
     public boolean isCartItemRemoved() {
         return driver.findElements(cartItem).isEmpty();
     }
 
-    public void continueShopping() {
+
+    public void backToProducts() {
         driver.findElement(continueBtn).click();
     }
 
+
     public void checkOut() {
         driver.findElement(checkoutBtn).click();
+    }
+
+    public void clickItemName() {
+        driver.findElement(cartItemName).click();
     }
 }

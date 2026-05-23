@@ -11,7 +11,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class TestProductsPage extends BaseTest {
-
     @Test
     public void testRedirectToProductsPageAfterLogin() {
         LoginPage loginPage = new LoginPage(driver);
@@ -22,8 +21,8 @@ public class TestProductsPage extends BaseTest {
         String pageUrl = driver.getCurrentUrl();
         Assert.assertEquals(pageName, "Products", "Actual page name is: " + pageName);
         Assert.assertEquals(pageUrl,  "https://www.saucedemo.com/inventory.html", "Redirected to: " + pageUrl);
-
     }
+
 
     @Test
     public void testFilterNameDesc() {
@@ -46,6 +45,7 @@ public class TestProductsPage extends BaseTest {
         Assert.assertEquals(actualDisplayedProducts, expectedDisplayedProducts, "Filter error");
     }
 
+
     @Test
     public void testFilterNameAsc() {
         LoginPage loginPage = new LoginPage(driver);
@@ -65,6 +65,7 @@ public class TestProductsPage extends BaseTest {
         Assert.assertEquals(filterName, "Name (A to Z)", "Actual filter name is: " + filterName);
         Assert.assertEquals(actualDisplayedProducts, expectedDisplayedProducts, "Filter error");
     }
+
 
     @Test
     public void testFilterPriceLowToHigh() {
@@ -86,6 +87,7 @@ public class TestProductsPage extends BaseTest {
         Assert.assertEquals(actualDisplayedPrices, expectedDisplayedPrices, "Filter error");
     }
 
+
     @Test
     public void testFilterPriceHighToLow() {
         LoginPage loginPage = new LoginPage(driver);
@@ -104,6 +106,40 @@ public class TestProductsPage extends BaseTest {
         String filterName = productsPage.getFilterName();
         Assert.assertEquals(filterName, "Price (high to low)", "Actual filter name is: " + filterName);
         Assert.assertEquals(actualDisplayedPrices, expectedDisplayedPrices, "Filter error");
+    }
+
+
+    @Test
+    public void testAddToCartWorksForAllProducts() {
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.loginUser("standard_user", "secret_sauce");
+
+        BasePage basePage = new BasePage(driver);
+        Assert.assertEquals(basePage.getPageName(), "Products");
+
+        ProductsPage productsPage = new ProductsPage(driver);
+        int numberOfListedProducts = productsPage.getProductsCount();
+        productsPage.addAllProductsToCart();
+        int numberOfItemsShownOnCartBadge = productsPage.getCartBadgeCount();
+
+        Assert.assertTrue(productsPage.isCartBadgeDisplayed(), "Cart item counter is not present");
+        Assert.assertEquals(numberOfListedProducts, numberOfItemsShownOnCartBadge, "Actual number of cart items is " + numberOfItemsShownOnCartBadge + "instead of " + numberOfListedProducts);
+    }
+
+
+    @Test
+    public void testRemoveFromCartWorksForAllProducts() {
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.loginUser("standard_user", "secret_sauce");
+
+        BasePage basePage = new BasePage(driver);
+        Assert.assertEquals(basePage.getPageName(), "Products");
+
+        ProductsPage productsPage = new ProductsPage(driver);
+        productsPage.addAllProductsToCart();
+        productsPage.removeProductsFromCart();
+
+        Assert.assertFalse(productsPage.isCartBadgeDisplayed(), "Not all products were removed from cart");
     }
 
 }

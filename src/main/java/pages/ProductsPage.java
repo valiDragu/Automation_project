@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
+import utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -50,28 +51,29 @@ public class ProductsPage extends BasePage{
 
     // Actions for specific product
     public String getProductName(String productName) {
-        return xpathHelper(productName).findElement(this.productName).getText().trim();
+        return xpathHelper(productName).findElement(By.xpath(".//div[@data-test='inventory-item-name']")).getText().trim();
     }
 
     public String getProductDescription(String productName) {
-        return xpathHelper(productName).findElement(productDescription).getText().trim();
+        return xpathHelper(productName).findElement(By.xpath(".//div[@data-test='inventory-item-desc']")).getText().trim();
     }
 
     public double getProductPrice(String productName) {
-        String rawPrice = xpathHelper(productName).findElement(productPrice).getText().trim().replace("$", "");
-        return Double.parseDouble(rawPrice);
+        String rawPrice = xpathHelper(productName).findElement(By.xpath(".//div[@data-test='inventory-item-price']")).getText();
+        return StringUtils.cleanAndParsePrice(rawPrice);
     }
 
     public void addProductToCart(String productName) {
         xpathHelper(productName).findElement(addToCartBtn).click();
     }
 
+
     public void removeProductFromCart(String productName) {
         xpathHelper(productName).findElement(removeFromCartBtn).click();
     }
 
     public void goToProductDetails(String productName) {
-        xpathHelper(productName).click();
+        xpathHelper(productName).findElement(By.xpath(".//div[@data-test='inventory-item-name']")).click();
     }
 
     // Bulk actions
@@ -91,6 +93,20 @@ public class ProductsPage extends BasePage{
 
     public List<Double> getAllProductsPrices() {
         return getPricesFromElements(productPrice);
+    }
+
+    public void addAllProductsToCart() {
+        List<WebElement> productsAddToCartBtn = new ArrayList<>(driver.findElements(addToCartBtn));
+        for(WebElement addToCartBtn: productsAddToCartBtn) {
+            addToCartBtn.click();
+        }
+    }
+
+    public void removeProductsFromCart() {
+        List<WebElement> removeBtns= new ArrayList<>(driver.findElements(removeFromCartBtn));
+        for (WebElement remove: removeBtns) {
+            remove.click();
+        }
     }
 
     //Helper method for actions targeting a specific product

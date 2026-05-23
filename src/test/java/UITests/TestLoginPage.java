@@ -7,7 +7,6 @@ import pages.BasePage;
 import pages.LoginPage;
 
 public class TestLoginPage extends BaseTest {
-
     @Test
     public void testLoginWithValidCredentials() {
         LoginPage loginPage = new LoginPage(driver);
@@ -18,6 +17,7 @@ public class TestLoginPage extends BaseTest {
         Assert.assertEquals(pageName, "Products");
         Assert.assertEquals(driver.getCurrentUrl(), "https://www.saucedemo.com/inventory.html");
     }
+
 
     @Test
     public void testFailsWhenUsernameIsNotProvided() {
@@ -30,6 +30,7 @@ public class TestLoginPage extends BaseTest {
         Assert.assertEquals(driver.getCurrentUrl(), "https://www.saucedemo.com/");
     }
 
+
     @Test
     public void testFailsWhenPasswordIsNotProvided() {
         LoginPage loginPage = new LoginPage(driver);
@@ -41,6 +42,7 @@ public class TestLoginPage extends BaseTest {
         Assert.assertEquals(driver.getCurrentUrl(), "https://www.saucedemo.com/");
     }
 
+
     @Test
     public void testFailsWhenCredentialsAreInvalid() {
         LoginPage loginPage = new LoginPage(driver);
@@ -51,6 +53,7 @@ public class TestLoginPage extends BaseTest {
         Assert.assertEquals(errorMessage,"Epic sadface: Username and password do not match any user in this service");
         Assert.assertEquals(driver.getCurrentUrl(), "https://www.saucedemo.com/");
     }
+
 
     @Test
     public void testFailsWhenUsingLockedUpUserCredentials() {
