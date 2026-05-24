@@ -2,12 +2,12 @@ package models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-@JsonInclude(JsonInclude.Include.NON_NULL) // 🌟 Omit fields if they are null
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class BookingRequest {
     private String firstname;
     private String lastname;
-    private Integer totalprice;      // 🌟 Changed from int to Integer wrapper
-    private Boolean depositpaid;     // 🌟 Changed from boolean to Boolean wrapper
+    private Integer totalprice;
+    private Boolean depositpaid;
     private BookingDates bookingdates;
     private String additionalneeds;
 
