@@ -42,27 +42,35 @@ public class TestListeners implements ITestListener {
         String timestamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
         String screenshotName = testName + "_" + timestamp + ".png";
 
-        // Relative path so the HTML report can locate the image locally
-        String relativePath = "screenshots/" + screenshotName;
-        String fullPath = System.getProperty("user.dir") + "/target/" + relativePath;
+        // Log the failure details first so they are always in the report
+        ExtentManager.getTest().log(Status.FAIL, "Test Failed: " + result.getThrowable());
 
-        File srcFile = ((TakesScreenshot) DriverFactory.getDriver()).getScreenshotAs(OutputType.FILE);
-        File destFile = new File(fullPath);
+        // 🌟 THE GUARDRAIL: Only attempt screenshot capture if an active browser driver exists
+        if (DriverFactory.getDriver() != null) {
+            // Relative path so the HTML report can locate the image locally
+            String relativePath = "screenshots/" + screenshotName;
+            String fullPath = System.getProperty("user.dir") + "/target/" + relativePath;
 
-        try {
-            if (destFile.getParentFile() != null) {
-                destFile.getParentFile().mkdirs();
+            File srcFile = ((TakesScreenshot) DriverFactory.getDriver()).getScreenshotAs(OutputType.FILE);
+            File destFile = new File(fullPath);
+
+            try {
+                if (destFile.getParentFile() != null) {
+                    destFile.getParentFile().mkdirs();
+                }
+                FileUtils.copyFile(srcFile, destFile);
+
+                // 🌟 Bind the captured screenshot into the HTML dashboard
+                ExtentManager.getTest().addScreenCaptureFromPath(relativePath);
+            } catch (IOException e) {
+                System.err.println("Failed to bind screenshot to report: " + e.getMessage());
             }
-            FileUtils.copyFile(srcFile, destFile);
-
-            // 🌟 THE MAGIC: Log the failure details and embed the screenshot into the HTML dashboard
-            ExtentManager.getTest().log(Status.FAIL, "Test Failed: " + result.getThrowable());
-            ExtentManager.getTest().addScreenCaptureFromPath(relativePath);
-        } catch (IOException e) {
-            System.err.println("Failed to bind screenshot to report: " + e.getMessage());
-        } finally {
-            ExtentManager.removeTest();
+        } else {
+            System.out.println("ℹ️ API Failure detected for " + testName + " - Skipping screenshot capture since no browser is active.");
         }
+
+        // Always keep this in the finally block to prevent thread memory leaks!
+        ExtentManager.removeTest();
     }
 
     @Override

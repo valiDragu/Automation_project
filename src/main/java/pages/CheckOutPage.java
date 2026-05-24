@@ -2,6 +2,7 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import utils.WaitUtils;
 
 public class CheckOutPage {
     private WebDriver driver;
@@ -20,10 +21,11 @@ public class CheckOutPage {
     }
 
     public void fillForm(String fname, String lname, String zip) {
-        driver.findElement(inputFirstName).sendKeys(fname);
-        driver.findElement(inputLastName).sendKeys(lname);
-        driver.findElement(inputZipCode).sendKeys(zip);
-        driver.findElement(continueBtn).click();
+        WaitUtils.waitForVisibility(inputFirstName).sendKeys(fname);
+        WaitUtils.waitForVisibility(inputLastName).sendKeys(lname);
+        WaitUtils.waitForVisibility(inputZipCode).sendKeys(zip);
+        WaitUtils.waitForClickable(continueBtn).click();
+
     }
 
     public boolean isErrorMessageDisplayed() {
