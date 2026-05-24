@@ -5,8 +5,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.StringUtils;
+import utils.WaitUtils;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -29,11 +32,16 @@ public class ProductsPage extends BasePage{
 
     // Filter actions
     public void selectFilter(String option) {
+        WaitUtils.waitForClickable(filterBtn);
         Select select = new Select(driver.findElement(filterBtn));
         select.selectByVisibleText(option);
+
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(d -> select.getFirstSelectedOption().getText().trim().equals(option));
     }
 
     public String getFilterName() {
+        WaitUtils.waitForVisibility(filterName);
         return driver.findElement(filterName).getText().trim();
     }
 

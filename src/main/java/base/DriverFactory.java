@@ -82,6 +82,7 @@ public class DriverFactory {
         if (System.getenv("GITHUB_ACTIONS") != null) {
             options.addArguments("--headless=new");
             options.addArguments("--disable-gpu");
+            options.addArguments("--window-size=1920,1080"); // Forces a desktop-sized viewport
             options.addArguments("--no-sandbox");
             options.addArguments("--disable-dev-shm-usage");
         }

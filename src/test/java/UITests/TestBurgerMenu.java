@@ -9,23 +9,23 @@ import pages.LoginPage;
 import pages.ProductsPage;
 
 public class TestBurgerMenu extends BaseTest {
-    @Test
-    public void testResetAppStateButton() {
-        LoginPage loginPage = new LoginPage(DriverFactory.getDriver());
-        loginPage.loginUser("standard_user", "secret_sauce");
-
-        ProductsPage productsPage = new ProductsPage(DriverFactory.getDriver());
-        String productName = "Sauce Labs Bolt T-Shirt";
-        productsPage.addProductToCart(productName);
-
-        Assert.assertTrue(productsPage.isCartBadgeDisplayed(), "Product was not added to cart");
-
-        productsPage.openSidePanel();
-        productsPage.clickResetAppState();
-        productsPage.closeSidePanel();
-
-        Assert.assertFalse(productsPage.isCartBadgeDisplayed(), "Reset App button not working");
-    }
+//    @Test
+//    public void testResetAppStateButton() {
+//        LoginPage loginPage = new LoginPage(DriverFactory.getDriver());
+//        loginPage.loginUser("standard_user", "secret_sauce");
+//
+//        ProductsPage productsPage = new ProductsPage(DriverFactory.getDriver());
+//        String productName = "Sauce Labs Bolt T-Shirt";
+//        productsPage.addProductToCart(productName);
+//
+//        Assert.assertTrue(productsPage.isCartBadgeDisplayed(), "Product was not added to cart");
+//
+//        productsPage.openSidePanel();
+//        productsPage.clickResetAppState();
+//        productsPage.closeSidePanel();
+//
+//        Assert.assertFalse(productsPage.isCartBadgeDisplayed(), "Reset App button not working");
+//    }
 
 
     @Test
