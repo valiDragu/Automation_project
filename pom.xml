@@ -66,10 +66,12 @@
             <scope>compile</scope>
         </dependency>
 
+        <!-- Source: https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-            <version>2.15.2</version> <scope>test</scope>
+            <version>2.21</version>
+            <scope>compile</scope>
         </dependency>
 
     </dependencies>
@@ -84,6 +86,9 @@
                     <suiteXmlFiles>
                         <suiteXmlFile>testng.xml</suiteXmlFile>
                     </suiteXmlFiles>
+
+                    <threadCount>1</threadCount>
+                    <parallel>none</parallel>
                 </configuration>
             </plugin>
         </plugins>

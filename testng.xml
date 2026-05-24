@@ -8,16 +8,22 @@
         <listener class-name="base.listeners.TestListeners"/>
     </listeners>
 
-    <test name="Checkout Validation Tests">
+    <test name="UI Automation Tests">
         <classes>
             <class name="UITests.TestLoginPage"/>
-<!--            <class name="UITests.TestProductsPage"/>-->
-<!--            <class name="UITests.TestProductDetailsPage"/>-->
-<!--            <class name="UITests.TestCartPage"/>-->
-<!--            <class name="UITests.TestCheckOutPage"/>-->
-<!--            <class name="UITests.TestOverviewPage"/>-->
-<!--            <class name="UITests.TestOrderCompletePage"/>-->
-<!--            <class name="UITests.TestBurgerMenu"/>-->
+            <class name="UITests.TestProductsPage"/>
+            <class name="UITests.TestProductDetailsPage"/>
+            <class name="UITests.TestCartPage"/>
+            <class name="UITests.TestCheckOutPage"/>
+            <class name="UITests.TestOverviewPage"/>
+            <class name="UITests.TestOrderCompletePage"/>
+            <class name="UITests.TestBurgerMenu"/>
+        </classes>
+    </test>
+
+    <test name="API automation Tests">
+        <classes>
+            <class name="APITests.TestBookingAPI"/>
         </classes>
     </test>
 
