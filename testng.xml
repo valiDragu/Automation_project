@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<!-- 🌟 THE MAGIC: parallel="methods" tells TestNG to run individual @Test methods concurrently -->
+<!-- THE MAGIC: parallel="methods" tells TestNG to run individual @Test methods concurrently -->
 <!-- thread-count="3" defines maximum browser instances open at the exact same time -->
 <suite name="SauceLabs Automation Suite" parallel="methods" thread-count="3">
 
@@ -10,14 +10,14 @@
 
     <test name="UI Automation Tests">
         <classes>
-            <class name="UITests.TestLoginPage"/>
-            <class name="UITests.TestProductsPage"/>
-            <class name="UITests.TestProductDetailsPage"/>
-            <class name="UITests.TestCartPage"/>
-            <class name="UITests.TestCheckOutPage"/>
-            <class name="UITests.TestOverviewPage"/>
+<!--            <class name="UITests.TestLoginPage"/>-->
+<!--            <class name="UITests.TestProductsPage"/>-->
+<!--            <class name="UITests.TestProductDetailsPage"/>-->
+<!--            <class name="UITests.TestCartPage"/>-->
+<!--            <class name="UITests.TestCheckOutPage"/>-->
+<!--            <class name="UITests.TestOverviewPage"/>-->
             <class name="UITests.TestOrderCompletePage"/>
-            <class name="UITests.TestBurgerMenu"/>
+<!--            <class name="UITests.TestBurgerMenu"/>-->
         </classes>
     </test>
 

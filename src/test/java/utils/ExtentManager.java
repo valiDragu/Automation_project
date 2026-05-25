@@ -8,7 +8,7 @@ import com.aventstack.extentreports.reporter.configuration.Theme;
 public class ExtentManager {
     private static ExtentReports extent;
 
-    // 🌟 ThreadLocal keeps log entries from overwriting each other during parallel runs
+    // ThreadLocal keeps log entries from overwriting each other during parallel runs
     private static final ThreadLocal<ExtentTest> testThreadLocal = new ThreadLocal<>();
 
     public static synchronized ExtentReports getInstance() {

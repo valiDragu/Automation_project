@@ -26,7 +26,7 @@ public class DriverFactory {
         if (tlDriver.get() == null) {
             switch (targetBrowser) {
                 case "chrome":
-                    // 🌟 WebDriverManager removed; Selenium 4 handles driver binaries natively
+                    // WebDriverManager removed; Selenium 4 handles driver binaries natively
                     tlDriver.set(new ChromeDriver(getChromeOptions()));
                     break;
                 case "firefox":
@@ -78,7 +78,7 @@ public class DriverFactory {
         options.addArguments("--disable-blink-features=AutomationControlled");
         options.addArguments("--start-maximized");
 
-        // 🌟 CI/CD MUST-HAVE: Run headless without a visual GUI if executing inside GitHub Actions
+        // CI/CD MUST-HAVE: Run headless without a visual GUI if executing inside GitHub Actions
         if (System.getenv("GITHUB_ACTIONS") != null) {
             options.addArguments("--headless=new");
             options.addArguments("--disable-gpu");

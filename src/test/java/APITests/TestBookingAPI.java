@@ -11,7 +11,6 @@ import static org.hamcrest.Matchers.*;
 
 public class TestBookingAPI extends BaseAPITest {
 
-    // 🌟 Class-level variables to hold data between tests
     private String authToken;
     private int savedBookingId;
 
