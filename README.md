@@ -53,4 +53,4 @@ Structura proiectului este organizată pentru a separa logica de business de inf
 ---
 
 ## Rapoarte
-* **După execuție, raportul detaliat (HTML) este generat automat în directorul:/target/ExtentReport.html.
+* După execuție, raportul detaliat (HTML) este generat automat în directorul:/target/ExtentReport.html.
