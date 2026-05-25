@@ -24,7 +24,7 @@ public class TestProductsPage extends BaseTest {
         Assert.assertEquals(pageUrl,  "https://www.saucedemo.com/inventory.html", "Redirected to: " + pageUrl);
     }
 
-
+// Ignore the filter tests
 //    @Test
 //    public void testFilterNameDesc() {
 //        LoginPage loginPage = new LoginPage(DriverFactory.getDriver());
