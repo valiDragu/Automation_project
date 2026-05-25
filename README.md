@@ -45,7 +45,7 @@ Structura proiectului este organizată pentru a separa logica de business de inf
 ## Cum să rulezi proiectul
 
 1. **Clonare:**
-   git clone <link-ul-repository-ului-tau>
+   git clone <https://github.com/valiDragu/Automation_project>
 
 2. **Execuție Teste (Maven):**
    mvn clean test
